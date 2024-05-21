@@ -4,10 +4,12 @@ import { proxy } from "valtio";
 // ./ --> path
 // color
 const state = proxy({
-  bodyMaterial: "",
+  bodyMaterial: "Oak",
   legsMaterial: "",
   innerMaterial: "",
   doorsMaterial: "",
   handlesMaterial: "",
-  isDoorOpen: false,
+  isDoorOpen: 0,
 });
+
+export default state;

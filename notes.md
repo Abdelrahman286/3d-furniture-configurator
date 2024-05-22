@@ -71,3 +71,12 @@ const {material, setMaterial } = useCustomization()
 
 
 - use the context without useEffect 
+
+-----------------
+
+# To add new config option 
+
+1) Add options list 
+2) add state in global context 
+3) handle it in App.jsx 
+4) add conditional rendering in Model.jsx

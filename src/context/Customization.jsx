@@ -3,8 +3,9 @@ import { createContext, useContext, useState } from "react";
 const CustomizationContext = createContext({});
 
 export const CustomizationProvider = (props) => {
-  const [material, setMaterial] = useState("Oak");
-
+  const [outerMaterial, setOuterMaterial] = useState("Oak");
+  const [innerMaterial, setInnerMaterial] = useState("White");
+  const [handlesMaterial, setHandlesMaterial] = useState("White");
   const [isDoorOpen, setIsDoorOpen] = useState(false);
   //   const [legs, setLegs] = useState(1);
   //   const [chairColor, setChairColor] = useState(chairColors[0]);
@@ -13,8 +14,12 @@ export const CustomizationProvider = (props) => {
   return (
     <CustomizationContext.Provider
       value={{
-        material,
-        setMaterial,
+        outerMaterial,
+        setOuterMaterial,
+        innerMaterial,
+        setInnerMaterial,
+        handlesMaterial,
+        setHandlesMaterial,
         isDoorOpen,
         setIsDoorOpen,
       }}

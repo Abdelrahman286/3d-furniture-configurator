@@ -25,9 +25,7 @@ const SelectOptions = ({ value, onChange, options }) => {
   });
   return (
     // overflow-auto ---> to display the scroll if it's nesscacry
-    <div className="flex flex-row overflow-x-auto p-3  justify-between">
-      {renderedOptions}
-    </div>
+    <div className="flex flex-row overflow-x-auto p-3 ">{renderedOptions}</div>
   );
 };
 

@@ -6,24 +6,45 @@ import { handleDoorAnimation } from "./utils/doorAnimation";
 import { useCustomization } from "./context/Customization";
 
 export function Model(props) {
-  const { material, isDoorOpen } = useCustomization();
+  const { outerMaterial, isDoorOpen, innerMaterial, handlesMaterial } =
+    useCustomization();
   const group = useRef();
   const ref = useRef();
 
   const { nodes, materials, animations } = useGLTF("/console.glb");
   const { actions, names } = useAnimations(animations, group);
 
-  const [darkWoodTexture1, darkWoodTexture2] = useTexture([
-    "./textures/darkWood.jpeg",
-    "./textures/darkWood2.jpeg",
-  ]);
+  const wood1 = useTexture({
+    map: "./wood_textures/Wood_022_SD/Wood_022_basecolor.jpg",
+    displacementMap: "./wood_textures/Wood_022_SD/Wood_022_height.png",
+    aoMap: "./wood_textures/Wood_022_SD/Wood_022_ambientOcclusion.jpg",
+    normalMap: "./wood_textures/Wood_022_SD/Wood_022_normal.jpg",
+    roughnessMap: "./wood_textures/Wood_022_SD/Wood_022_roughness.jpg",
+  });
+  const wood2 = useTexture({
+    map: "./wood_textures/Wood_024_SD/Wood_024_basecolor.jpg",
+    displacementMap: "./wood_textures/Wood_024_SD/Wood_024_height.jpg",
+    aoMap: "./wood_textures/Wood_024_SD/Wood_024_ambientOcclusion.jpg",
+    normalMap: "./wood_textures/Wood_024_SD/Wood_024_normal.jpg",
+    roughnessMap: "./wood_textures/Wood_024_SD/Wood_024_roughness.jpg",
+  });
+
+  const wood3 = useTexture({
+    map: "./wood_textures/Wood_027_SD/Wood_027_basecolor.jpg",
+    displacementMap: "./wood_textures/Wood_027_SD/Wood_027_height.png",
+    aoMap: "./wood_textures/Wood_027_SD/Wood_027_ambientOcclusion.jpg",
+    normalMap: "./wood_textures/Wood_027_SD/Wood_027_normal.jpg",
+    roughnessMap: "./wood_textures/Wood_027_SD/Wood_027_roughness.jpg",
+  });
+
+  const gold = useTexture("./textures/gold.jpg");
 
   // door animation
   useEffect(() => {
-    console.log("door");
     handleDoorAnimation(actions, names, isDoorOpen);
   }, [isDoorOpen]);
 
+  console.log(handlesMaterial);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
@@ -75,10 +96,30 @@ export function Model(props) {
                     castShadow
                     receiveShadow
                     geometry={nodes["handle-1"].geometry}
-                    material={materials.lambert1}
+                    // material={materials.lambert1}
                     position={[294.226, 6.125, 100.004]}
                     rotation={[0, -0.012, 0]}
-                  />
+                  >
+                    {handlesMaterial === "Black" && (
+                      <meshStandardMaterial
+                        color={"black"}
+                        roughness={0}
+                        metalness={1}
+                      ></meshStandardMaterial>
+                    )}
+                    {handlesMaterial === "White" && (
+                      <meshStandardMaterial
+                        {...materials.lambert1}
+                      ></meshStandardMaterial>
+                    )}
+                    {handlesMaterial === "Gold" && (
+                      <meshStandardMaterial
+                        map={gold}
+                        metalness={1}
+                        roughness={0}
+                      ></meshStandardMaterial>
+                    )}
+                  </mesh>
                   <mesh
                     name="handle-2"
                     castShadow
@@ -86,7 +127,27 @@ export function Model(props) {
                     geometry={nodes["handle-2"].geometry}
                     material={materials.lambert1}
                     position={[175.332, 6.485, 98.97]}
-                  />
+                  >
+                    {handlesMaterial === "Black" && (
+                      <meshStandardMaterial
+                        color={"black"}
+                        roughness={0}
+                        metalness={1}
+                      ></meshStandardMaterial>
+                    )}
+                    {handlesMaterial === "White" && (
+                      <meshStandardMaterial
+                        {...materials.lambert1}
+                      ></meshStandardMaterial>
+                    )}
+                    {handlesMaterial === "Gold" && (
+                      <meshStandardMaterial
+                        map={gold}
+                        metalness={1}
+                        roughness={0}
+                      ></meshStandardMaterial>
+                    )}
+                  </mesh>
                 </group>
                 <group name="movel">
                   <mesh
@@ -95,9 +156,20 @@ export function Model(props) {
                     receiveShadow
                     geometry={nodes["all-interiror"].geometry}
                     // material={materials["Material.002"]}
-                    // interior
-                    material={materials.lambert1}
-                  />
+                    // interior / inner
+                  >
+                    {innerMaterial == "Oak" && (
+                      <meshStandardMaterial
+                        {...materials.lambert1}
+                      ></meshStandardMaterial>
+                    )}
+
+                    {innerMaterial == "White" && (
+                      <meshStandardMaterial
+                        color={"white"}
+                      ></meshStandardMaterial>
+                    )}
+                  </mesh>
 
                   <mesh
                     ref={ref}
@@ -108,19 +180,20 @@ export function Model(props) {
                     // outer
                     // material={material === "Oak" ? materials.lambert1 : ""}
                   >
-                    <meshStandardMaterial
-                      {...materials.lambert1}
-                    ></meshStandardMaterial>
-                    {material === "Teak" && (
+                    {outerMaterial === "Oak" && (
                       <meshStandardMaterial
-                        map={darkWoodTexture1}
+                        {...materials.lambert1}
                       ></meshStandardMaterial>
                     )}
 
-                    {material === "Mahogany" && (
-                      <meshStandardMaterial
-                        map={darkWoodTexture2}
-                      ></meshStandardMaterial>
+                    {outerMaterial === "Teak" && (
+                      <meshStandardMaterial {...wood1}></meshStandardMaterial>
+                    )}
+                    {outerMaterial === "Mahogany" && (
+                      <meshStandardMaterial {...wood2}></meshStandardMaterial>
+                    )}
+                    {outerMaterial === "Pine" && (
+                      <meshStandardMaterial {...wood3}></meshStandardMaterial>
                     )}
                   </mesh>
                 </group>
@@ -152,7 +225,27 @@ export function Model(props) {
                       material={materials.lambert1}
                       position={[-93.597, 6.166, 97.262]}
                       rotation={[0, 0.568, 0]}
-                    />
+                    >
+                      {handlesMaterial === "Black" && (
+                        <meshStandardMaterial
+                          color={"black"}
+                          roughness={0}
+                          metalness={1}
+                        ></meshStandardMaterial>
+                      )}
+                      {handlesMaterial === "White" && (
+                        <meshStandardMaterial
+                          {...materials.lambert1}
+                        ></meshStandardMaterial>
+                      )}
+                      {handlesMaterial === "Gold" && (
+                        <meshStandardMaterial
+                          map={gold}
+                          metalness={1}
+                          roughness={0}
+                        ></meshStandardMaterial>
+                      )}
+                    </mesh>
                   </group>
                   <group name="puxadora" />
                 </group>

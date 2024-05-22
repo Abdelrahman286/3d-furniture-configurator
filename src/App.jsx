@@ -4,49 +4,47 @@ import Slot from "./components/Slot";
 import SelectOptions from "./components/SelectOptions";
 
 import { useCustomization } from "./context/Customization";
-
+import {
+  bodyMaterialOptions,
+  innerMaterialOptions,
+  handlesMaterialOptions,
+} from "./utils/options";
 const App = () => {
-  const { material, setMaterial, isDoorOpen, setIsDoorOpen } =
-    useCustomization();
-  //------------ Body Material Stuff
-  const bodyMaterialOptions = [
-    {
-      label: "Oak",
-      imgIcon: "./woodIcon4.jpg",
-    },
-    {
-      label: "Teak",
-      imgIcon: "./woodIcon2.png",
-    },
-    {
-      label: "Mahogany",
-      imgIcon: "./woodIcon3.png",
-    },
-    {
-      label: "Pine",
-      imgIcon: "./woodIcon.png",
-    },
-    ,
-  ];
+  const {
+    outerMaterial,
+    setOuterMaterial,
+    innerMaterial,
+    setInnerMaterial,
+    handlesMaterial,
+    setHandlesMaterial,
+    isDoorOpen,
+    setIsDoorOpen,
+  } = useCustomization();
+  //------------ outer body Material -------------
 
-  const [selectedBodyMaterial, setSelectedBodyMaterial] = useState(material);
   const [isBodySlotOpen, setIsBodySlotOpen] = useState(true);
-
   const handleBodySlot = () => {
     setIsBodySlotOpen(!isBodySlotOpen);
   };
 
   const handleBodyMaterialChange = (option) => {
-    if (option?.label) {
-      setSelectedBodyMaterial(option.label);
-      setMaterial(option.label);
-    }
+    setOuterMaterial(option.label);
   };
 
-  //------------------- Interior
+  //------------------- Interior-------------
 
   const handleDoorOpen = () => {
     setIsDoorOpen(!isDoorOpen);
+  };
+
+  const handleInnerMaterial = (option) => {
+    setInnerMaterial(option.label);
+  };
+
+  //----------- Handles material -----------------
+  const [handlesSlot, setHandlesSlot] = useState(true);
+  const changeHandlesSLot = () => {
+    setHandlesSlot(!handlesSlot);
   };
 
   return (
@@ -63,7 +61,7 @@ const App = () => {
         >
           <SelectOptions
             options={bodyMaterialOptions}
-            value={selectedBodyMaterial}
+            value={outerMaterial}
             onChange={handleBodyMaterialChange}
           ></SelectOptions>
         </Slot>
@@ -73,7 +71,25 @@ const App = () => {
           isOpen={isDoorOpen}
           onChange={handleDoorOpen}
         >
-          put Lamination here
+          <SelectOptions
+            options={innerMaterialOptions}
+            value={innerMaterial}
+            onChange={handleInnerMaterial}
+          ></SelectOptions>
+        </Slot>
+
+        <Slot
+          label={"Handles Material"}
+          isOpen={handlesSlot}
+          onChange={changeHandlesSLot}
+        >
+          <SelectOptions
+            options={handlesMaterialOptions}
+            value={handlesMaterial}
+            onChange={(option) => {
+              setHandlesMaterial(option.label);
+            }}
+          ></SelectOptions>
         </Slot>
       </div>
     </div>

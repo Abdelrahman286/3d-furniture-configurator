@@ -2,6 +2,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, ContactShadows } from "@react-three/drei";
 
 import { Model } from "./Model";
+import { useControls } from "leva";
 
 function Scene() {
   return (
@@ -34,9 +35,27 @@ function Scene() {
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
-      <OrbitControls />
+      <OrbitControls
+        makeDefault
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI / 2}
+      />
 
-      <Model castShadow receiveShadow />
+      <Model
+        position={[0, -1, 0.5]}
+        rotation={[0, -Math.PI / 12, 0]}
+        castShadow
+        receiveShadow
+      />
+      {/* Add blue plane */}
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -1.05, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[20, 20]} />
+        <meshStandardMaterial color={"white"} />
+      </mesh>
     </Canvas>
   );
 }

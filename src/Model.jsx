@@ -1,39 +1,28 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations, Decal, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { useSnapshot } from "valtio";
-import state from "./store";
-import useColorMaterial from "./hooks/useColorMaterial";
-import useTextureMaterial from "./hooks/useTextureMaterial";
-import { useFrame } from "@react-three/fiber";
+
+import { handleDoorAnimation } from "./utils/doorAnimation";
+import { useCustomization } from "./context/Customization";
 
 export function Model(props) {
-  const snap = useSnapshot(state);
+  const { material, isDoorOpen } = useCustomization();
   const group = useRef();
   const ref = useRef();
+
   const { nodes, materials, animations } = useGLTF("/console.glb");
   const { actions, names } = useAnimations(animations, group);
-  const texture = useTexture("./textureMap1.jpg");
-  const finalTexture = new THREE.MeshStandardMaterial({
-    map: texture,
-  });
-  let bodyMaterialElement = null;
 
+  const [darkWoodTexture1, darkWoodTexture2] = useTexture([
+    "./textures/darkWood.jpeg",
+    "./textures/darkWood2.jpeg",
+  ]);
+
+  // door animation
   useEffect(() => {
-    // door functionality
-    if (snap.isDoorOpen) {
-      names.forEach((name) => {
-        actions[name].setLoop(THREE.LoopOnce);
-        actions[name].clampWhenFinished = true;
-        actions[name].play();
-      });
-    } else {
-      names.forEach((name) => {
-        actions[name].stop();
-      });
-    }
-    console.log(snap.bodyMaterial);
-  }, [snap.bodyMaterial, snap.isDoorOpen]);
+    console.log("door");
+    handleDoorAnimation(actions, names, isDoorOpen);
+  }, [isDoorOpen]);
 
   return (
     <group ref={group} {...props} dispose={null}>
@@ -117,14 +106,22 @@ export function Model(props) {
                     receiveShadow
                     geometry={nodes.movel_lambert1_0.geometry}
                     // outer
-                    material={
-                      snap.bodyMaterial == "Oak"
-                        ? materials.lambert1
-                        : finalTexture
-                    }
-                    // material={updatedBodyMaterial}
+                    // material={material === "Oak" ? materials.lambert1 : ""}
                   >
-                    {bodyMaterialElement}
+                    <meshStandardMaterial
+                      {...materials.lambert1}
+                    ></meshStandardMaterial>
+                    {material === "Teak" && (
+                      <meshStandardMaterial
+                        map={darkWoodTexture1}
+                      ></meshStandardMaterial>
+                    )}
+
+                    {material === "Mahogany" && (
+                      <meshStandardMaterial
+                        map={darkWoodTexture2}
+                      ></meshStandardMaterial>
+                    )}
                   </mesh>
                 </group>
                 <group name="pe">
@@ -168,4 +165,4 @@ export function Model(props) {
   );
 }
 
-useGLTF.preload("/console.glb");
+// useGLTF.preload("/console.glb");

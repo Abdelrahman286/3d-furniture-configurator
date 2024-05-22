@@ -3,54 +3,50 @@ import Scene from "./Scene";
 import Slot from "./components/Slot";
 import SelectOptions from "./components/SelectOptions";
 
-import { texture } from "three/examples/jsm/nodes/Nodes.js";
-import state from "./store/index";
-import { useSnapshot } from "valtio";
-import { useControls } from "leva";
+import { useCustomization } from "./context/Customization";
 
 const App = () => {
-  const snap = useSnapshot(state);
+  const { material, setMaterial, isDoorOpen, setIsDoorOpen } =
+    useCustomization();
+  //------------ Body Material Stuff
   const bodyMaterialOptions = [
     {
       label: "Oak",
-      img: "./texture1.png",
+      imgIcon: "./woodIcon4.jpg",
     },
     {
       label: "Teak",
-      img: "./texture2.png",
-      texturePath: "./textureMap1.jpg",
+      imgIcon: "./woodIcon2.png",
     },
     {
       label: "Mahogany",
-      img: "./texture3.png",
-      texturePath: "./textureMap2.jpg",
+      imgIcon: "./woodIcon3.png",
+    },
+    {
+      label: "Pine",
+      imgIcon: "./woodIcon.png",
     },
     ,
   ];
 
-  const [selectedBodyMaterial, setSelectedBodyMaterial] = useState("Oak");
-  const [isDoorOpen, setIsDoorOpen] = useState(snap.isDoorOpen);
-  const [isBodyMaterialOpen, setIsBodyMaterialOpen] = useState(true);
-  const handleBodyMaterialOpen = () => {
-    setIsBodyMaterialOpen(!isBodyMaterialOpen);
+  const [selectedBodyMaterial, setSelectedBodyMaterial] = useState(material);
+  const [isBodySlotOpen, setIsBodySlotOpen] = useState(true);
+
+  const handleBodySlot = () => {
+    setIsBodySlotOpen(!isBodySlotOpen);
   };
-  const handleDoorOpen = () => {
-    setIsDoorOpen(!isDoorOpen);
-    state.isDoorOpen = !state.isDoorOpen;
-  };
-  const handleBodyMaterial = (option) => {
+
+  const handleBodyMaterialChange = (option) => {
     if (option?.label) {
       setSelectedBodyMaterial(option.label);
-      state.bodyMaterial = option.label;
+      setMaterial(option.label);
     }
-    // if (option?.hex?.startsWith("#")) {
-    //   console.log(option.hex);
-    //   state.bodyMaterial = option.hex;
-    // } else if (option?.texturePath) {
-    //   state.bodyMaterial = option.texturePath;
-    // } else {
-    //   state.bodyMaterial = "0";
-    // }
+  };
+
+  //------------------- Interior
+
+  const handleDoorOpen = () => {
+    setIsDoorOpen(!isDoorOpen);
   };
 
   return (
@@ -62,13 +58,13 @@ const App = () => {
       <div className="controls w-[30%]">
         <Slot
           label={"Outer Body"}
-          isOpen={isBodyMaterialOpen}
-          onChange={handleBodyMaterialOpen}
+          isOpen={isBodySlotOpen}
+          onChange={handleBodySlot}
         >
           <SelectOptions
             options={bodyMaterialOptions}
             value={selectedBodyMaterial}
-            onChange={handleBodyMaterial}
+            onChange={handleBodyMaterialChange}
           ></SelectOptions>
         </Slot>
 

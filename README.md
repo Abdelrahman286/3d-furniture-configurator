@@ -3,7 +3,7 @@
 A web application for designing and visualizing furniture in 3D, built with React, React Three Fiber, and React Context API.
 
 ![alt text](image.png)
-
+![alt text](image-1.png)
 
 ## Features
 

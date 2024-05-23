@@ -1,8 +1,19 @@
-# React + Vite
+# 3D Furniture Configurator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application for designing and visualizing furniture in 3D, built with React, React Three Fiber, and React Context API.
 
-Currently, two official plugins are available:
+![alt text](image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Features
+
+- **3D Visualization**: Interactively view and manipulate furniture.
+- **Real-time Updates**: Instant rendering of changes.
+- **Customizable Options**: Choose different furniture types, colors, and materials.
+
+## Technologies Used
+
+- **React**
+- **React Three Fiber**
+- **React Context API**
+

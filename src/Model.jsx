@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations, Decal, useTexture } from "@react-three/drei";
-import * as THREE from "three";
 
 import { handleDoorAnimation } from "./utils/doorAnimation";
 import { useCustomization } from "./context/Customization";

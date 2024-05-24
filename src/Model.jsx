@@ -11,7 +11,7 @@ export function Model(props) {
   const group = useRef();
   const ref = useRef();
 
-  const { nodes, materials, animations } = useGLTF("/console.glb");
+  const { nodes, materials, animations } = useGLTF("./console.glb");
   const { actions, names } = useAnimations(animations, group);
 
   const wood1 = useTexture({

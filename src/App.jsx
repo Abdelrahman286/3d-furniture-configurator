@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect, useState } from "react";
-import Scene from "./Scene";
+import React, { Suspense, useEffect, useState, lazy } from "react";
+
 import Slot from "./components/Slot";
 import SelectOptions from "./components/SelectOptions";
-
 import { useCustomization } from "./context/Customization";
 import {
   bodyMaterialOptions,
@@ -10,8 +9,11 @@ import {
   handlesMaterialOptions,
 } from "./utils/options";
 
-// loading element
+// 3d components
 import LoadingAlert from "./components/LoadingAlert";
+const Scene = lazy(() => import("./Scene"));
+// import Scene from "./Scene";
+
 const App = () => {
   const {
     outerMaterial,
@@ -53,7 +55,6 @@ const App = () => {
   return (
     <div className="w-full h-[100vh] flex flex-row overflow-hidden">
       <div className="w-[70%] rad-gradient">
-        {/* <Suspense fallback={<h1>Loading....</h1>}> */}
         <Suspense fallback={<LoadingAlert></LoadingAlert>}>
           <Scene></Scene>
         </Suspense>

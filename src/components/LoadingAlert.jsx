@@ -30,7 +30,13 @@ const RotatingBox = () => {
 
 const CubeLoader = () => {
   return (
-    <Canvas style={{ height: "100vh", background: "#ffffff" }}>
+    <Canvas
+      style={{
+        height: "100vh",
+        width: "100%",
+        background: "radial-gradient(circle, #e6e5e5, rgb(105, 103, 103))",
+      }}
+    >
       {/* Lights */}
       <ambientLight intensity={0.5} />
       <pointLight color="#ff00ff" intensity={1} position={[5, 5, 5]} />

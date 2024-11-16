@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Suspense } from "react";
 import { useGLTF, useAnimations, Decal, useTexture } from "@react-three/drei";
 
 import { handleDoorAnimation } from "./utils/doorAnimation";
@@ -43,7 +43,6 @@ export function Model(props) {
     handleDoorAnimation(actions, names, isDoorOpen);
   }, [isDoorOpen]);
 
-  console.log(handlesMaterial);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">

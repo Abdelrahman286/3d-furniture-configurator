@@ -47,7 +47,6 @@ function Scene() {
         castShadow
         receiveShadow
       />
-
       {/* Add blue plane */}
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}

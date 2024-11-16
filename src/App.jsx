@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Scene from "./Scene";
 import Slot from "./components/Slot";
 import SelectOptions from "./components/SelectOptions";
@@ -9,6 +9,9 @@ import {
   innerMaterialOptions,
   handlesMaterialOptions,
 } from "./utils/options";
+
+// loading element
+import LoadingAlert from "./components/LoadingAlert";
 const App = () => {
   const {
     outerMaterial,
@@ -50,7 +53,10 @@ const App = () => {
   return (
     <div className="w-full h-[100vh] flex flex-row overflow-hidden">
       <div className="w-[70%] rad-gradient">
-        <Scene></Scene>
+        {/* <Suspense fallback={<h1>Loading....</h1>}> */}
+        <Suspense fallback={<LoadingAlert></LoadingAlert>}>
+          <Scene></Scene>
+        </Suspense>
       </div>
 
       <div className="controls w-[30%]">
